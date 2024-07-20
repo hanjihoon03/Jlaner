@@ -37,6 +37,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     // 인증 성공 후 리다이렉트할 기본 경로
     public static final String REDIRECT_PATH = "/home";
 
+
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
@@ -65,12 +66,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 액세스 토큰 생성
         String accessToken = tokenProvider.generateToken(member, ACCESS_TOKEN_DURATION);
-
-
         String targetUrl = getTargetUrl(accessToken);
 
         clearAuthenticationAttributes(request, response);
-
 
         try {
             // 인증 성공 후 리다이렉트

@@ -21,8 +21,9 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
+
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
@@ -31,34 +32,47 @@ public class WebSecurityConfig {
     private final MemberService memberService;
     private final CustomOauth2UserService customOauth2UserService;
 
+    @Bean
+    public WebSecurityCustomizer configure() { // 스프링 시큐리티 기능 비활성화
+        return (web) -> web.ignoring()
+                .requestMatchers(toH2Console())
+                .requestMatchers(
+                        new AntPathRequestMatcher("/img/**"),
+                        new AntPathRequestMatcher("/css/**"),
+                        new AntPathRequestMatcher("/js/**")
+                );
+    }
+
     // HTTP 보안 설정을 구성하는 메서드
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
+                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable) // CSRF 보호 비활성화
                 .authorizeRequests(auth -> auth
                         .requestMatchers(
                                 new AntPathRequestMatcher("/login/**"),
-                                new AntPathRequestMatcher("/never/**"),
-                                new AntPathRequestMatcher("/css/**"),
-                                new AntPathRequestMatcher("/images/**"),
                                 new AntPathRequestMatcher("/pngs/**"),
-                                new AntPathRequestMatcher("/js/**"),
                                 new AntPathRequestMatcher("/error/**"),
+                                new AntPathRequestMatcher("/favicon.ico"),
+                                new AntPathRequestMatcher("/h2-console/**"),
+                                new AntPathRequestMatcher("/api/token"),
                                 new AntPathRequestMatcher("/actuator/**"))
                         .permitAll() // 위 경로들은 인증 없이 접근 가능
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/api/**")).authenticated()
                         .anyRequest()
-                        .authenticated()) // 그 외의 모든 요청은 인증 필요
+                        .permitAll())
                 .oauth2Login(login -> login
                         .loginPage("/login")
                         .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository()))
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOauth2UserService))
                         .successHandler(oAuth2SuccessHandler())
                 )
-                .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .defaultAuthenticationEntryPointFor(
                                 new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),

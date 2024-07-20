@@ -1,27 +1,3 @@
-// 쿠키를 가져오는 함수
-function getCookie(key) {
-    var result = null;
-    var cookie = document.cookie.split(';');
-    cookie.some(function (item) {
-        item = item.replace(' ', '');
-
-        var dic = item.split('=');
-
-        if (key === dic[0]) {
-            result = dic[1];
-            return true;
-        }
-    });
-
-    return result;
-}
-
-// 쿠키를 삭제하는 함수
-function deleteCookie(name) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-
 // HTTP 요청을 보내는 함수
 function httpRequest(method, url, body, success, fail) {
     fetch(url, {

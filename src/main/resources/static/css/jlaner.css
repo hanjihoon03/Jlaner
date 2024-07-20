@@ -1,0 +1,286 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    margin: 0;
+}
+.header {
+    background-color: rgb(53, 53, 203);
+    padding: 10px 20px;
+    text-align: center;
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-buttons {
+    display: flex;
+    gap: 3rem;
+    padding-right: 5rem;
+}
+nav {
+    background-color: rgb(53, 53, 203);
+    padding: 15px;
+    text-align: center;
+    color: white;
+    width: calc(20% - 20px);
+    position: fixed;
+    top: 58px;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 998;
+    margin-right: 20px; /* Reduced margin to create closer alignment */
+}
+main {
+    margin-top: 60px;
+    margin-left: 0; /* Adjusted margin */
+    padding-left: calc(20% + 40px); /* Adjusted padding */
+    padding-right: 20px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    background-color: #f1f1f1; /* Light Grey */
+    position: relative;
+}
+#initial-message {
+    max-width: 600px; /* 최대 너비 설정 */
+    padding: 20px; /* 안쪽 여백 설정 */
+    background-color: #fff; /* 배경색 설정 */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 그림자 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+    position: absolute; /* 절대 위치 설정 */
+    top: 50%; /* 위에서 50% 위치 */
+    left: 58%; /* 왼쪽에서 58% 위치 */
+    transform: translate(-50%, -50%); /* 중심 정렬 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+.textarea-container {
+    position: relative;
+}
+.schedule-save-button{
+    position: absolute;
+    top: 0px;
+    right: 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #393434;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.schedule-save-button:hover{
+    background-color: #0e0f0e;
+}
+.save-button {
+    position: absolute;
+    top: 180px;
+    right: 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #393434;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.save-button:hover {
+    background-color: #0e0f0e;
+}
+.confirm-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #393434;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 80px; /* Adjusted top position */
+    right: 10px; /* Adjusted right position */
+}
+.confirm-button:hover {
+    background-color: #0e0f0e;
+}
+textarea {
+    width: calc(100% - 25px); /* Adjusted width for text areas */
+    height: 40px; /* Fixed height for text areas */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    margin-top: 10px; /* Adjusted margin */
+    margin-bottom: 10px; /* Adjusted margin */
+}
+footer {
+    background-color: #333; /* Dark Grey */
+    padding: 10px;
+    text-align: center;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.youtube-container {
+    display: none; /* Initially hidden */
+    width: 560px; /* Fixed width for the YouTube area */
+    height: 200px; /* Adjusted height for the YouTube area */
+    background-color: white;
+    position: absolute;
+    top: 100px; /* Initial position between the link input and the textarea */
+    left: calc(20% + 40px); /* Adjust to align with the main content */
+    z-index: 999; /* Higher z-index than main content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Box shadow for visual effect */
+    transition: top 0.3s ease; /* Smooth transition for the movement */
+}
+.youtube-container.fixed {
+    position: fixed;
+    top: 60px; /* Stick to the top */
+    left: calc(20% + 20px); /* Adjust left position */
+}
+.youtube-container.absolute {
+    position: absolute;
+    top: 100px; /* Reset to initial position */
+}
+.youtube-container.absolute-top {
+    top: 60px; /* Adjusted initial position */
+}
+.youtube-container iframe {
+    width: 100%;
+    height: 100%;
+}
+#youtube-link-input {
+    margin-bottom: 20px;
+}
+#youtube-url {
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#insert-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #393434;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#insert-button:hover {
+    background-color: #0e0f0e;    
+}
+.button-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.button-container button {
+    width: 120px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#toggle-youtube-button {
+    background-color: #393434;
+    color: rgb(255, 255, 255);
+    border: none;
+}
+#toggle-youtube-button:hover {
+    background-color: #0e0f0e;
+}
+#shared-textarea {
+    width: 100%;
+    height: 600px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+    margin-top: 230px; /* Adjusted to move below YouTube container */
+    margin-bottom: 20px;
+}
+.header-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #393434;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.header-button:hover {
+    background-color: #0e0f0e;
+}
+.nav-item {
+    margin-bottom: 20px;
+}
+.nav-item h3 {
+    margin-bottom: 10px;
+}
+.nav-item ul {
+    list-style-type: none;
+    padding: 0;
+}
+.nav-item ul li {
+    margin-bottom: 5px;
+}
+.nav-item ul li a {
+    color: white;
+    text-decoration: none;
+}
+.nav-item ul li a:hover {
+    text-decoration: underline;
+}
+.schedule-container {
+    background-color: rgb(53, 53, 203);
+    padding: 10px;
+    text-align: center;
+    margin-top: 20px;
+    position: relative; /* Added position relative for correct child positioning */
+}
+.schedule-area{
+    padding: 10px;
+    text-align: center;
+    margin-top: 20px;
+    position: relative; /* Added position relative for correct child positioning */
+}
+.schedule-container label {
+    color: white;
+    font-weight: bold;
+}
+.schedule-item {
+    margin-top: 10px;
+}
+.schedule-item label {
+    margin-right: 10px;
+}
+#schedule-date {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px; /* Adjusted margin */
+    margin-bottom: 5px; /* Adjusted margin */
+}
+.content-tab {
+    display: none; /* Initially hide content tab */
+}
+.active {
+    display: block; /* Show active tab content */
+}

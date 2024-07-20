@@ -1,0 +1,32 @@
+.login-container {
+            width: 400px;
+            height: 400px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 20px;
+            border: 10px solid rgb(53, 53, 203);
+            box-sizing: border-box;
+        }
+        .login-container h1 {
+            margin-bottom: 20px;
+            color: white;
+            background-color: rgb(53, 53, 203);
+            width: 100px;
+            height: 50px;
+            line-height: 50px;
+            display: inline-block;
+            border-radius: 5px;
+        }
+        .login-container img {
+            width: 150px;
+            height: 50px;
+            cursor: pointer;
+            margin: 30px auto;
+            display: block;
+        }

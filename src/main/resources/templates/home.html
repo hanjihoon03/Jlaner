@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jlaner</title>
+    <link rel="stylesheet" href="/css/jlaner.css">
+</head>
+<body>
+<header class="header">
+    <h1>Jlaner</h1>
+    <div class="header-buttons">
+        <button id="logout-button" class="header-button">Log Out</button>
+    </div>
+</header>
+<nav>
+    <div class="nav-item">
+        <h3>포스팅</h3>
+        <ul>
+            <li><a href="#" onclick="switchTab('content')">Content</a></li>
+        </ul>
+    </div>
+    <div class="nav-item">
+        <h3>스케줄러</h3>
+        <ul>
+            <li><a href="#" onclick="switchTab('schedule')">Schedule</a></li>
+        </ul>
+        <div class="schedule-container">
+            <label for="schedule-date">Select Date:</label>
+            <input type="date" id="schedule-date" name="schedule-date">
+            <button class="confirm-button" onclick="confirmDate()">확인</button>
+        </div>
+    </div>
+</nav>
+<main>
+    <div id="initial-message" class="content-tab active">
+        <h2>반갑습니다. Jlaner 입니다. <br> 날짜를 선택해 컨텐츠를 작성하세요!</h2>
+    </div>
+    <div id="content-tab" class="content-tab">
+        <div id="youtube-link-input">
+            <input type="text" id="youtube-url" placeholder="Enter YouTube URL">
+            <button id="insert-button" onclick="insertYouTubeVideo()">Insert</button>
+        </div>
+        <div class="textarea-container">
+            <button class="save-button">Save</button>
+            <textarea id="shared-textarea" placeholder="Enter your text here..."></textarea>
+            <div class="button-container">
+                <button id="toggle-youtube-button" onclick="toggleYouTubeContainer()">Toggle YouTube</button>
+            </div>
+        </div>
+    </div>
+    <div id="schedule-tab" class="content-tab">
+        <div class="schedule-area">
+            <button class="schedule-save-button">Save</button>
+            <div class="schedule-item">
+                <label>00:00 - 02:00</label>
+                <input type="checkbox" id="check-00-02">
+                <textarea id="text-00-02" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>02:00 - 04:00</label>
+                <input type="checkbox" id="check-02-04">
+                <textarea id="text-02-04" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>04:00 - 06:00</label>
+                <input type="checkbox" id="check-04-06">
+                <textarea id="text-04-06" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>06:00 - 08:00</label>
+                <input type="checkbox" id="check-06-08">
+                <textarea id="text-06-08" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>08:00 - 10:00</label>
+                <input type="checkbox" id="check-08-10">
+                <textarea id="text-08-10" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>10:00 - 12:00</label>
+                <input type="checkbox" id="check-10-12">
+                <textarea id="text-10-12" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>12:00 - 14:00</label>
+                <input type="checkbox" id="check-12-14">
+                <textarea id="text-12-14" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>14:00 - 16:00</label>
+                <input type="checkbox" id="check-14-16">
+                <textarea id="text-14-16" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>16:00 - 18:00</label>
+                <input type="checkbox" id="check-16-18">
+                <textarea id="text-16-18" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>18:00 - 20:00</label>
+                <input type="checkbox" id="check-18-20">
+                <textarea id="text-18-20" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>20:00 - 22:00</label>
+                <input type="checkbox" id="check-20-22">
+                <textarea id="text-20-22" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+            <div class="schedule-item">
+                <label>22:00 - 00:00</label>
+                <input type="checkbox" id="check-22-00">
+                <textarea id="text-22-00" rows="3" placeholder="Enter details..."></textarea>
+            </div>
+        </div>
+    </div>
+</main>
+<div id="youtube-container" class="youtube-container">
+    <iframe id="youtube-preview" width="560" height="200" src="" frameborder="0" allowfullscreen></iframe>
+</div>
+<script src="/js/jlaner.js"></script>
+</body>
+
+</html>

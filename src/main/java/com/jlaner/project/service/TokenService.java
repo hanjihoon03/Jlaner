@@ -11,15 +11,16 @@ import java.time.Duration;
 @Service
 public class TokenService {
     private final TokenProvider tokenProvider;
-    private final RefreshTokenService refreshTokenService;
+    private final RefreshTokenRedisService refreshTokenRedisService;
     private final MemberService memberService;
+
 
     public String createNewAccessToken(String refreshToken) {
         if(!tokenProvider.validToken(refreshToken)) {
             throw new IllegalArgumentException("Unexpected token");
         }
 
-        Long memberId = refreshTokenService.findByRefreshToken(refreshToken).getMemberId();
+        Long memberId = refreshTokenRedisService.findByRefreshToken(refreshToken).getMemberId();
         Member member = memberService.findByMemberId(memberId);
 
         return tokenProvider.generateToken(member, Duration.ofHours(2));

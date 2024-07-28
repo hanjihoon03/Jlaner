@@ -37,16 +37,16 @@ nav {
     bottom: 0;
     overflow-y: auto;
     z-index: 998;
-    margin-right: 20px; /* Reduced margin to create closer alignment */
+    margin-right: 20px; /* 정렬을 가깝게 하기 위해 여백을 줄임 */
 }
 main {
     margin-top: 60px;
-    margin-left: 0; /* Adjusted margin */
-    padding-left: calc(20% + 40px); /* Adjusted padding */
+    margin-left: 0; /* 여백 조정 */
+    padding-left: calc(20% + 40px); /* 여백 조정 */
     padding-right: 20px;
     height: calc(100vh - 60px);
     overflow-y: auto;
-    background-color: #f1f1f1; /* Light Grey */
+    background-color: #f1f1f1; /* 밝은 회색 */
     position: relative;
 }
 #initial-message {
@@ -103,25 +103,25 @@ main {
     border-radius: 5px;
     cursor: pointer;
     position: absolute;
-    top: 80px; /* Adjusted top position */
-    right: 10px; /* Adjusted right position */
+    top: 80px; /* 상단 위치 조정 */
+    right: 10px; /* 오른쪽 위치 조정 */
 }
 .confirm-button:hover {
     background-color: #0e0f0e;
 }
 textarea {
-    width: calc(100% - 25px); /* Adjusted width for text areas */
-    height: 40px; /* Fixed height for text areas */
+    width: calc(100% - 25px); /* 텍스트 영역의 너비 조정 */
+    height: 40px; /* 텍스트 영역의 고정 높이 */
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: none;
-    margin-top: 10px; /* Adjusted margin */
-    margin-bottom: 10px; /* Adjusted margin */
+    margin-top: 10px; /* 여백 조정 */
+    margin-bottom: 10px; /* 여백 조정 */
 }
 footer {
-    background-color: #333; /* Dark Grey */
+    background-color: #333; /* 어두운 회색 */
     padding: 10px;
     text-align: center;
     color: white;
@@ -130,28 +130,28 @@ footer {
     width: 100%;
 }
 .youtube-container {
-    display: none; /* Initially hidden */
-    width: 560px; /* Fixed width for the YouTube area */
-    height: 200px; /* Adjusted height for the YouTube area */
+    display: none; /* 초기에는 숨김 */
+    width: 560px; /* YouTube 영역의 고정 너비 */
+    height: 200px; /* YouTube 영역의 높이 조정 */
     background-color: white;
     position: absolute;
-    top: 100px; /* Initial position between the link input and the textarea */
-    left: calc(20% + 40px); /* Adjust to align with the main content */
-    z-index: 999; /* Higher z-index than main content */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Box shadow for visual effect */
-    transition: top 0.3s ease; /* Smooth transition for the movement */
+    top: 100px; /* 링크 입력과 텍스트 영역 사이의 초기 위치 */
+    left: calc(20% + 40px); /* 메인 컨텐츠와 정렬 조정 */
+    z-index: 999; /* 메인 컨텐츠보다 높은 z-index */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 시각적 효과를 위한 그림자 */
+    transition: top 0.3s ease; /* 움직임에 대한 부드러운 전환 */
 }
 .youtube-container.fixed {
     position: fixed;
-    top: 60px; /* Stick to the top */
-    left: calc(20% + 20px); /* Adjust left position */
+    top: 60px; /* 상단에 고정 */
+    left: calc(20% + 20px); /* 왼쪽 위치 조정 */
 }
 .youtube-container.absolute {
     position: absolute;
-    top: 100px; /* Reset to initial position */
+    top: 100px; /* 초기 위치로 재설정 */
 }
 .youtube-container.absolute-top {
-    top: 60px; /* Adjusted initial position */
+    top: 60px; /* 초기 위치 조정 */
 }
 .youtube-container iframe {
     width: 100%;
@@ -178,7 +178,7 @@ footer {
     cursor: pointer;
 }
 #insert-button:hover {
-    background-color: #0e0f0e;    
+    background-color: #0e0f0e;
 }
 .button-container {
     position: absolute;
@@ -211,7 +211,7 @@ footer {
     border: 1px solid #ccc;
     border-radius: 5px;
     resize: none;
-    margin-top: 230px; /* Adjusted to move below YouTube container */
+    margin-top: 230px; /* YouTube 컨테이너 아래로 이동하도록 조정 */
     margin-bottom: 20px;
 }
 .header-button {
@@ -251,13 +251,13 @@ footer {
     padding: 10px;
     text-align: center;
     margin-top: 20px;
-    position: relative; /* Added position relative for correct child positioning */
+    position: relative; /* 자식 요소의 올바른 위치를 위해 상대 위치 추가 */
 }
 .schedule-area{
     padding: 10px;
     text-align: center;
     margin-top: 20px;
-    position: relative; /* Added position relative for correct child positioning */
+    position: relative; /* 자식 요소의 올바른 위치를 위해 상대 위치 추가 */
 }
 .schedule-container label {
     color: white;
@@ -275,12 +275,12 @@ footer {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-top: 5px; /* Adjusted margin */
-    margin-bottom: 5px; /* Adjusted margin */
+    margin-top: 5px; /* 여백 조정 */
+    margin-bottom: 5px; /* 여백 조정 */
 }
 .content-tab {
-    display: none; /* Initially hide content tab */
+    display: none; /* 초기에는 컨텐츠 탭 숨기기 */
 }
 .active {
-    display: block; /* Show active tab content */
+    display: block; /* 활성 탭 컨텐츠 표시 */
 }

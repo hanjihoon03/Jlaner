@@ -1,17 +1,21 @@
 package com.jlaner.project.config;
 
+import com.jlaner.project.config.jwt.JwtExceptionFilter;
+import com.jlaner.project.config.jwt.TokenAuthenticationFilter;
 import com.jlaner.project.config.jwt.TokenProvider;
+import com.jlaner.project.config.outh2.CustomAuthenticationEntryPoint;
 import com.jlaner.project.config.outh2.CustomOauth2UserService;
 import com.jlaner.project.config.outh2.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import com.jlaner.project.config.outh2.OAuth2SuccessHandler;
-import com.jlaner.project.repository.RefreshTokenRepository;
+import com.jlaner.project.repository.MemberRepository;
 import com.jlaner.project.service.MemberService;
+import com.jlaner.project.service.RefreshTokenRedisService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,14 +32,16 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 public class WebSecurityConfig {
 
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final CustomOauth2UserService customOauth2UserService;
+    private final RefreshTokenRedisService refreshTokenRedisService;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public WebSecurityCustomizer configure() { // 스프링 시큐리티 기능 비활성화
         return (web) -> web.ignoring()
-                .requestMatchers(toH2Console())
+//                .requestMatchers(toH2Console())
                 .requestMatchers(
                         new AntPathRequestMatcher("/img/**"),
                         new AntPathRequestMatcher("/css/**"),
@@ -46,13 +52,13 @@ public class WebSecurityConfig {
     // HTTP 보안 설정을 구성하는 메서드
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(AbstractHttpConfigurer::disable)
+         http
+                .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
+                .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .csrf(AbstractHttpConfigurer::disable) // CSRF 보호 비활성화
                 .authorizeRequests(auth -> auth
                         .requestMatchers(
                                 new AntPathRequestMatcher("/login/**"),
@@ -60,11 +66,12 @@ public class WebSecurityConfig {
                                 new AntPathRequestMatcher("/error/**"),
                                 new AntPathRequestMatcher("/favicon.ico"),
                                 new AntPathRequestMatcher("/h2-console/**"),
-                                new AntPathRequestMatcher("/api/token"),
                                 new AntPathRequestMatcher("/actuator/**"))
                         .permitAll() // 위 경로들은 인증 없이 접근 가능
                         .requestMatchers(
-                                new AntPathRequestMatcher("/api/**")).authenticated()
+                                new AntPathRequestMatcher("/api/**")
+                        )
+                        .authenticated()
                         .anyRequest()
                         .permitAll())
                 .oauth2Login(login -> login
@@ -73,18 +80,17 @@ public class WebSecurityConfig {
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOauth2UserService))
                         .successHandler(oAuth2SuccessHandler())
                 )
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .defaultAuthenticationEntryPointFor(
-                                new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                                new AntPathRequestMatcher("/login")
-                        ))
-                .build();
+                 .exceptionHandling(exceptionHandling -> exceptionHandling
+                         .authenticationEntryPoint(customAuthenticationEntryPoint));
+
+
+         return http.build();
     }
 
     @Bean
     public OAuth2SuccessHandler oAuth2SuccessHandler() {
         return new OAuth2SuccessHandler(tokenProvider,
-                refreshTokenRepository,
+                refreshTokenRedisService,
                 oAuth2AuthorizationRequestBasedOnCookieRepository(),
                 memberService
         );
@@ -93,7 +99,7 @@ public class WebSecurityConfig {
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
-        return new TokenAuthenticationFilter(tokenProvider);
+        return new TokenAuthenticationFilter(tokenProvider,refreshTokenRedisService,memberRepository);
     }
 
 

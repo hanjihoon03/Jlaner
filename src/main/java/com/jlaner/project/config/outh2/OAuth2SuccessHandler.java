@@ -3,8 +3,8 @@ package com.jlaner.project.config.outh2;
 import com.jlaner.project.config.jwt.TokenProvider;
 import com.jlaner.project.domain.Member;
 import com.jlaner.project.domain.RefreshToken;
-import com.jlaner.project.repository.RefreshTokenRepository;
 import com.jlaner.project.service.MemberService;
+import com.jlaner.project.service.RefreshTokenRedisService;
 import com.jlaner.project.util.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,13 +33,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     // 리프레시 토큰의 유효 기간 (14일)
     public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(14);
     // 액세스 토큰의 유효 기간 (1일)
-    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
+    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofSeconds(10);
     // 인증 성공 후 리다이렉트할 기본 경로
     public static final String REDIRECT_PATH = "/home";
 
 
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenRedisService refreshTokenRedisService;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
     private final MemberService memberService;
 
@@ -61,11 +61,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 리프레시 토큰 생성 및 저장
         String refreshToken = tokenProvider.generateToken(member, REFRESH_TOKEN_DURATION);
-        saveRefreshToken(member.getId(), refreshToken);
         addRefreshTokenToCookie(request, response, refreshToken);
 
         // 액세스 토큰 생성
         String accessToken = tokenProvider.generateToken(member, ACCESS_TOKEN_DURATION);
+
+        saveToken(member.getId(),accessToken, refreshToken);
+
         String targetUrl = getTargetUrl(accessToken);
 
         clearAuthenticationAttributes(request, response);
@@ -84,17 +86,21 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     /**
-     * 리프레시 토큰을 저장합니다.
+     * 리프레시 토큰과 액세스 토큰을 저장합니다.
      *
      * @param memberId 사용자 ID
+     * @param newAccessToken 새로운 액세스 토큰
      * @param newRefreshToken 새로운 리프레시 토큰
      */
-    private void saveRefreshToken(Long memberId, String newRefreshToken) {
-        RefreshToken refreshToken = refreshTokenRepository.findByMemberId(memberId)
-                .map(entity -> entity.update(newRefreshToken))
-                .orElse(new RefreshToken(memberId, newRefreshToken));
+    private void saveToken(Long memberId,String newAccessToken, String newRefreshToken) {
 
-        refreshTokenRepository.save(refreshToken);
+        RefreshToken findRefreshToken = refreshTokenRedisService.findByMemberId(memberId);
+        if (findRefreshToken != null) {
+            findRefreshToken.refreshTokenUpdate(newRefreshToken);
+        } else {
+            findRefreshToken = new RefreshToken(String.valueOf(memberId),memberId,newAccessToken, newRefreshToken);
+        }
+        refreshTokenRedisService.saveToken(findRefreshToken);
     }
 
     /**

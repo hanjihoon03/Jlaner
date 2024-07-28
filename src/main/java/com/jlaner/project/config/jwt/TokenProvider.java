@@ -2,10 +2,7 @@ package com.jlaner.project.config.jwt;
 
 
 import com.jlaner.project.domain.Member;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -63,11 +60,13 @@ public class TokenProvider {
      */
     public Boolean validToken(String token) {
         try {
-            Jwts.parserBuilder()
+            Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(jwtProperties.getSecretKey())
                     .build()
                     .parseClaimsJws(token);
-            return true;
+            return claims.getBody()
+                    .getExpiration()
+                    .after(new Date());
         } catch (Exception e) {
             return false;
         }

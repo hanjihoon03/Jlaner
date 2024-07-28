@@ -2,31 +2,40 @@ package com.jlaner.project.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.redis.core.RedisHash;
+
+import java.io.Serializable;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Getter
-@Entity
-public class RefreshToken {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false)
-    private Long id;
+@RedisHash(value = "jwtToken", timeToLive = 60 * 60 * 24 * 14)
+public class RefreshToken implements Serializable {
 
-    @Column(name = "member_id", nullable = false, unique = true)
+    @Id
+    private String id;
+
     private Long memberId;
 
-    @Column(name = "refresh_token", nullable = false)
+    private String accessToken;
     private String refreshToken;
 
-    public RefreshToken(Long memberId, String refreshToken) {
+
+    public RefreshToken(Long memberId, String accessToken, String refreshToken) {
         this.memberId = memberId;
+        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
 
-    public RefreshToken update(String newRefreshToken) {
+    public RefreshToken refreshTokenUpdate(String newRefreshToken) {
         this.refreshToken = newRefreshToken;
+        return this;
+    }
+    public RefreshToken accessTokenUpdate(String newAccessToken) {
+        this.refreshToken = newAccessToken;
         return this;
     }
 }

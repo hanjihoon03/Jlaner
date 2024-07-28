@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,7 @@
 <header class="header">
     <h1>Jlaner</h1>
     <div class="header-buttons">
+        <span id="member-name" th:text="${memberName} + '님'">사용자님</span>
         <button id="logout-button" class="header-button">Log Out</button>
     </div>
 </header>
@@ -119,7 +120,7 @@
     <iframe id="youtube-preview" width="560" height="200" src="" frameborder="0" allowfullscreen></iframe>
 </div>
 <script src="/js/jlaner.js"></script>
-<script src="/js/login.js"></script>
+<script src="/js/logout.js"></script>
 <script src="/js/token.js"></script>
 </body>
 </html>

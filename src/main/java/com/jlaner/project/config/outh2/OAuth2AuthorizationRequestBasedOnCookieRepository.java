@@ -18,8 +18,8 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
 
     // OAuth2 인증 요청을 저장할 쿠키의 이름
     public final static String OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME = "oauth2_auth_request";
-    // 쿠키의 만료 시간 (초 단위)
-    private final static int COOKIE_EXPIRE_SECONDS = 18000;
+    // 쿠키의 만료 시간 (초 단위) 리프레시 토큰에 맞춘 14일로 저장.
+    private final static int COOKIE_EXPIRE_SECONDS = 1209600;
 
     /**
      * 쿠키에서 OAuth2 인증 요청을 로드하고 이를 제거합니다.
@@ -74,4 +74,5 @@ public class OAuth2AuthorizationRequestBasedOnCookieRepository implements Author
     public void removeAuthorizationRequestCookies(HttpServletRequest request, HttpServletResponse response) {
         CookieUtil.deleteCookie(request, response, OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME);
     }
+
 }

@@ -2,8 +2,11 @@ package com.jlaner.project.controller;
 
 import com.jlaner.project.config.jwt.TokenProvider;
 import com.jlaner.project.domain.Member;
+import com.jlaner.project.domain.Post;
+import com.jlaner.project.domain.ScheduleData;
 import com.jlaner.project.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,16 +36,21 @@ public class TestController {
         return "login/login";
     }
     @GetMapping("/home")
-    public String home(@RequestParam("token") String token, Model model) {
+    public String home(@RequestParam("token") String token,
+                       HttpServletResponse response,
+                       Model model) {
         // accessToken을 로그에 출력하여 확인
         log.info("accessToken={}", token);
 
         // accessToken을 이용하여 사용자 정보를 조회
         Long memberId = tokenProvider.getMemberId(token);
         Member findMember = memberService.findByMemberId(memberId);
+        response.setHeader("Authorization", "Bearer " + token);
 
         // 사용자 이름을 모델에 추가
         model.addAttribute("memberName", findMember.getName());
+        model.addAttribute("scheduleData", new ScheduleData());
+        model.addAttribute("post", new Post());
 
         // home 뷰 반환
         return "home";

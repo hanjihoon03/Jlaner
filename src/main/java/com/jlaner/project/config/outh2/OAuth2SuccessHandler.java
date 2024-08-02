@@ -33,7 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     // 리프레시 토큰의 유효 기간 (14일)
     public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(14);
     // 액세스 토큰의 유효 기간 (1일)
-    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofSeconds(10);
+    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofSeconds(30);
     // 인증 성공 후 리다이렉트할 기본 경로
     public static final String REDIRECT_PATH = "/home";
 

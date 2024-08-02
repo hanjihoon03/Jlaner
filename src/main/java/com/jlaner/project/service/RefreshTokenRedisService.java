@@ -5,11 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.util.Arrays;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -70,7 +67,7 @@ public class RefreshTokenRedisService {
             } else if (memberIdObj instanceof Long) {
                 memberId = (Long) memberIdObj;
             } else if (memberIdObj instanceof String) {
-                memberId = Long.valueOf((String) memberIdObj); // Convert String to Long
+                memberId = Long.valueOf((String) memberIdObj); // String을 Long으로 변환
             }
         }
         String accessToken = (String) entries.get("accessToken");

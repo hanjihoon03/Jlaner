@@ -35,4 +35,10 @@ public class Member {
     private String provider;
     private String providerId;
 
+    public Member(String loginId, String name, String email, MemberRole role) {
+        this.loginId = loginId;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+    }
 }

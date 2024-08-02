@@ -22,9 +22,24 @@ public class ScheduleData {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    @Column(nullable = false, columnDefinition = "TINYINT(1)")
-    private boolean checkBox;
+
     private Date scheduleDate;
+
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private boolean checkBox1;
+    private boolean checkBox2;
+    private boolean checkBox3;
+    private boolean checkBox4;
+    private boolean checkBox5;
+    private boolean checkBox6;
+    private boolean checkBox7;
+    private boolean checkBox8;
+    private boolean checkBox9;
+    private boolean checkBox10;
+    private boolean checkBox11;
+    private boolean checkBox12;
+
+
     private String scheduleContent1;
     private String scheduleContent2;
     private String scheduleContent3;

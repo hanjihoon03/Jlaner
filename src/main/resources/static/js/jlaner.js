@@ -39,6 +39,29 @@ function toggleYouTubeContainer() {
 }
 
 function confirmDate() {
-    const selectedDate = document.getElementById('schedule-date').value;
-    alert(`선택된 날짜: ${selectedDate}`);
+        const selectedDate = document.getElementById('schedule-date').value;
+        document.getElementById('post-date').value = selectedDate;
+        document.getElementById('schedule-date-hidden').value = selectedDate;
+        alert("날짜가 설정되었습니다: " + selectedDate);
 }
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // 인증 상태를 확인하기 위해 '/api/check-auth' 엔드포인트로 요청을 보냄
+        const response = await fetchWithAuth('/api/check-auth');
+
+        // 응답이 성공적이지 않은 경우, 예: 인증 실패
+        if (!response.ok) {
+            // 에러 처리, 예: 로그인 페이지로 리디렉션
+            window.location.href = '/login';
+        } else {
+            // 응답을 JSON으로 변환
+            const data = await response.json();
+        }
+    } catch (error) {
+        // 요청 중 오류가 발생한 경우 콘솔에 에러를 출력하고 로그인 페이지로 리디렉션
+        console.error('인증 상태 확인 중 오류 발생:', error);
+        window.location.href = '/login';
+    }
+});

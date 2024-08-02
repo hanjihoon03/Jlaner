@@ -43,77 +43,81 @@
             <button id="insert-button" onclick="insertYouTubeVideo()">Insert</button>
         </div>
         <div class="textarea-container">
-            <button class="save-button">Save</button>
-            <textarea id="shared-textarea" placeholder="Enter your text here..."></textarea>
-            <div class="button-container">
-                <button id="toggle-youtube-button" onclick="toggleYouTubeContainer()">Toggle YouTube</button>
-            </div>
+            <form th:action="@{/savePost}" method="post" th:object="${post}">
+                <button type="submit" class="save-button">Save</button>
+                <textarea th:field="*{contentData}" id="shared-textarea" placeholder="내용을 입력해 주세요."></textarea>
+                <div class="button-container">
+                    <button id="toggle-youtube-button" onclick="toggleYouTubeContainer()">Toggle YouTube</button>
+                </div>
+            </form>
         </div>
     </div>
     <div id="schedule-tab" class="content-tab">
-        <div class="schedule-area">
-            <button class="schedule-save-button">Save</button>
-            <div class="schedule-item">
-                <label>00:00 - 02:00</label>
-                <input type="checkbox" id="check-00-02">
-                <textarea id="text-00-02" rows="3" placeholder="Enter details..."></textarea>
+        <form th:action="@{/saveSchedule}" method="post" th:object="${scheduleData}">
+            <div class="schedule-area">
+                <button type="submit" class="schedule-save-button">Save</button>
+                <div class="schedule-item">
+                    <label>00:00 - 02:00</label>
+                    <input type="checkbox" th:field="*{checkBox1}" id="check-00-02">
+                    <textarea th:field="*{scheduleContent1}" id="text-00-02" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>02:00 - 04:00</label>
+                    <input type="checkbox" th:field="*{checkBox2}" id="check-02-04">
+                    <textarea th:field="*{scheduleContent2}" id="text-02-04" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>04:00 - 06:00</label>
+                    <input type="checkbox" th:field="*{checkBox3}" id="check-04-06">
+                    <textarea th:field="*{scheduleContent3}" id="text-04-06" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>06:00 - 08:00</label>
+                    <input type="checkbox" th:field="*{checkBox4}" id="check-06-08">
+                    <textarea th:field="*{scheduleContent4}" id="text-06-08" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>08:00 - 10:00</label>
+                    <input type="checkbox" th:field="*{checkBox5}" id="check-08-10">
+                    <textarea th:field="*{scheduleContent5}" id="text-08-10" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>10:00 - 12:00</label>
+                    <input type="checkbox" th:field="*{checkBox6}" id="check-10-12">
+                    <textarea th:field="*{scheduleContent6}" id="text-10-12" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>12:00 - 14:00</label>
+                    <input type="checkbox" th:field="*{checkBox7}" id="check-12-14">
+                    <textarea th:field="*{scheduleContent7}" id="text-12-14" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>14:00 - 16:00</label>
+                    <input type="checkbox" th:field="*{checkBox8}" id="check-14-16">
+                    <textarea th:field="*{scheduleContent8}" id="text-14-16" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>16:00 - 18:00</label>
+                    <input type="checkbox" th:field="*{checkBox9}" id="check-16-18">
+                    <textarea th:field="*{scheduleContent9}" id="text-16-18" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>18:00 - 20:00</label>
+                    <input type="checkbox" th:field="*{checkBox10}" id="check-18-20">
+                    <textarea th:field="*{scheduleContent10}" id="text-18-20" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>20:00 - 22:00</label>
+                    <input type="checkbox" th:field="*{checkBox11}" id="check-20-22">
+                    <textarea th:field="*{scheduleContent11}" id="text-20-22" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
+                <div class="schedule-item">
+                    <label>22:00 - 00:00</label>
+                    <input type="checkbox" th:field="*{checkBox12}" id="check-22-00">
+                    <textarea th:field="*{scheduleContent12}" id="text-22-00" rows="3" placeholder="내용을 입력해 주세요."></textarea>
+                </div>
             </div>
-            <div class="schedule-item">
-                <label>02:00 - 04:00</label>
-                <input type="checkbox" id="check-02-04">
-                <textarea id="text-02-04" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-            <div class="schedule-item">
-                <label>04:00 - 06:00</label>
-                <input type="checkbox" id="check-04-06">
-                <textarea id="text-04-06" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-            <div class="schedule-item">
-                <label>06:00 - 08:00</label>
-                <input type="checkbox" id="check-06-08">
-                <textarea id="text-06-08" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-            <div class="schedule-item">
-                <label>08:00 - 10:00</label>
-                <input type="checkbox" id="check-08-10">
-                <textarea id="text-08-10" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-            <div class="schedule-item">
-                <label>10:00 - 12:00</label>
-                <input type="checkbox" id="check-10-12">
-                <textarea id="text-10-12" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-            <div class="schedule-item">
-                <label>12:00 - 14:00</label>
-                <input type="checkbox" id="check-12-14">
-                <textarea id="text-12-14" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-            <div class="schedule-item">
-                <label>14:00 - 16:00</label>
-                <input type="checkbox" id="check-14-16">
-                <textarea id="text-14-16" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-            <div class="schedule-item">
-                <label>16:00 - 18:00</label>
-                <input type="checkbox" id="check-16-18">
-                <textarea id="text-16-18" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-            <div class="schedule-item">
-                <label>18:00 - 20:00</label>
-                <input type="checkbox" id="check-18-20">
-                <textarea id="text-18-20" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-            <div class="schedule-item">
-                <label>20:00 - 22:00</label>
-                <input type="checkbox" id="check-20-22">
-                <textarea id="text-20-22" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-            <div class="schedule-item">
-                <label>22:00 - 00:00</label>
-                <input type="checkbox" id="check-22-00">
-                <textarea id="text-22-00" rows="3" placeholder="Enter details..."></textarea>
-            </div>
-        </div>
+        </form>
     </div>
 </main>
 <div id="youtube-container" class="youtube-container">
@@ -121,6 +125,7 @@
 </div>
 <script src="/js/jlaner.js"></script>
 <script src="/js/logout.js"></script>
+<script src="/js/setHeader.js"></script>
 <script src="/js/token.js"></script>
 </body>
 </html>

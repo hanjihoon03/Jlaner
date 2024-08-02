@@ -7,3 +7,6 @@ if (token) {
 function searchParam(key) {
     return new URLSearchParams(location.search).get(key);
 }
+function getAccessToken() {
+    return localStorage.getItem('access_token');
+}

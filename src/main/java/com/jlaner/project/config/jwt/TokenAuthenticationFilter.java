@@ -20,7 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @Slf4j
@@ -32,6 +32,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     public static final Duration ACCESS_TOKEN_DURATION = Duration.ofDays(1);
     private final static String HEADER_AUTHORIZATION = "Authorization";
     private final static String TOKEN_PREFIX = "Bearer ";
+    private int count =0;
     /**
      * 요청을 필터링하여 JWT 토큰을 검증하고 인증 정보를 설정하는 메서드
      *
@@ -55,6 +56,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        count++;
+        log.info("count={}", count);
+        log.info("request={}", request);
+
+
         // HTTP 요청 헤더에서 Authorization 헤더 값을 가져옴
         String authorizationHeader = request.getHeader(HEADER_AUTHORIZATION);
         log.info("authorizationHeader ={}", authorizationHeader);
@@ -63,7 +69,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         log.info("token = {}", token);
         log.info("-------4--------");
 
-        try {
+
         //AccessToken이 만료되었는지 확인
         if (token != null && !tokenProvider.validToken(token)) {
             log.info("Access Token 만료");
@@ -97,27 +103,20 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     } else {
                         log.info("Not Found Member");
-                        throw new CustomUnauthorizedException("Unauthorized");
+                        response.sendRedirect("/login?error=memberNotFound");
                     }
                     } else {
                         //토큰이 null이거나 만료라면 다시 로그인
                         //401 오류 페이지를 로그인 페이지로 이동하게끔 구성
                         log.info("Invalid Refresh Token");
-                        throw new CustomUnauthorizedException("Unauthorized");
+                        response.sendRedirect("/login?error=invalidRefreshToken");
                     }
                 } else {
                     //쿠키의 리프레시 토큰이 유효하지 않은 경우 (만료 또는 잘못된 토큰)
                     log.info("Invalid Refresh Token");
-                    throw new CustomUnauthorizedException("Unauthorized");
+                    response.sendRedirect("/login?error=missingRefreshToken");
                 }
             }
-//        // 현재 SecurityContext에 인증 정보가 있는지 확인
-//        //인증되지 않은 사용자라면 custom Exception 반환
-//        Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
-//        if (currentAuth == null || !currentAuth.isAuthenticated()) {
-//            log.info("User is not authenticated");
-//            throw new CustomUnauthorizedException("Unauthorized");
-//        }
 
 
         // 추출된 토큰이 유효한 경우
@@ -131,9 +130,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         // 다음 필터로 요청과 응답을 전달
         filterChain.doFilter(request, response);
-        }catch (CustomUnauthorizedException e) {
-            response.sendRedirect("/login");
-        }
 }
 
     /**

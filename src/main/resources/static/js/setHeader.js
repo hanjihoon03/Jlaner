@@ -1,5 +1,6 @@
 async function fetchWithAuth(url, options = {}) {
     const token = getAccessToken();
+    console.log(token);
 
     if (!options.headers) {
         options.headers = {};

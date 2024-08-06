@@ -27,13 +27,6 @@ public class TokenApiController {
     private final RefreshTokenRedisService refreshTokenRedisService;
     private final TokenProvider tokenProvider;
 
-//    @GetMapping("/testPage")
-//    public ResponseEntity<Map<String, Object>> getTestPage() {
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("message", "Success");
-//        return ResponseEntity.ok(response);
-//    }
-
     @GetMapping("/api/auth")
     @PreAuthorize("isAuthenticated()")
     public String getAuthenticated() {
@@ -60,9 +53,8 @@ public class TokenApiController {
     }
 
     @GetMapping("/api/check-auth")
-    public ResponseEntity<?> checkAuth(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> tokenCheck(@RequestHeader("Authorization") String token) {
         try {
-            log.info("인증합니다.");
             if (token != null && token.startsWith("Bearer ")) {
                 String jwtToken = token.substring(7);
                 Claims claims = tokenProvider.getClaims(jwtToken);

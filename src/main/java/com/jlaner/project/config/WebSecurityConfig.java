@@ -3,10 +3,7 @@ package com.jlaner.project.config;
 
 import com.jlaner.project.config.jwt.TokenAuthenticationFilter;
 import com.jlaner.project.config.jwt.TokenProvider;
-import com.jlaner.project.config.outh2.CustomAuthenticationEntryPoint;
-import com.jlaner.project.config.outh2.CustomOauth2UserService;
-import com.jlaner.project.config.outh2.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.jlaner.project.config.outh2.OAuth2SuccessHandler;
+import com.jlaner.project.config.outh2.*;
 import com.jlaner.project.repository.MemberRepository;
 import com.jlaner.project.service.MemberService;
 import com.jlaner.project.service.RefreshTokenRedisService;
@@ -52,6 +49,7 @@ public class WebSecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                 .addFilterBefore(addAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests(auth -> auth
                         .requestMatchers(
@@ -67,7 +65,8 @@ public class WebSecurityConfig {
                         )
                         .authenticated()
                         .anyRequest()
-                        .permitAll())
+                        .permitAll()
+                )
                 .oauth2Login(login -> login
                         .loginPage("/login")
                         .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint.authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository()))
@@ -94,6 +93,10 @@ public class WebSecurityConfig {
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
         return new TokenAuthenticationFilter(tokenProvider,refreshTokenRedisService,memberRepository);
+    }
+    @Bean
+    public AddAuthorizationFilter addAuthorizationFilter() {
+        return new AddAuthorizationFilter(refreshTokenRedisService);
     }
 
 

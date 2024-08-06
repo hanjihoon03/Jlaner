@@ -1,4 +1,4 @@
-function showAlertFromQuery() {
+function alertError() {
             const params = new URLSearchParams(window.location.search);
             const error = params.get('error');
 
@@ -25,4 +25,4 @@ function showAlertFromQuery() {
 }
 
 // 페이지가 로드될 때 showAlertFromQuery 함수를 호출
-window.onload = showAlertFromQuery;
+window.onload = alertError;

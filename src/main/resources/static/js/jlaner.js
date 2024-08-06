@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             // 응답을 JSON으로 변환
             const data = await response.json();
+            document.getElementById('member-name').innerText = data.memberName + '님';
         }
     } catch (error) {
         // 요청 중 오류가 발생한 경우 콘솔에 에러를 출력하고 로그인 페이지로 리디렉션

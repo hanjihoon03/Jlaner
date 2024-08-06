@@ -4,6 +4,8 @@ package com.jlaner.project.config.jwt;
 import com.jlaner.project.domain.Member;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.internal.log.SubSystemLogging;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +18,7 @@ import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class TokenProvider {
     private final JwtProperties jwtProperties;
 
@@ -111,5 +114,19 @@ public class TokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+    public boolean isTokenExpired(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(jwtProperties.getSecretKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            log.info("tokenProvider");
+            return claims.getExpiration().before(new Date());
+        } catch (Exception e) {
+            log.error("토큰이 만료되었습니다. {}", e.getMessage());
+            return true; // 토큰이 유효하지 않은 경우 만료된 것으로 간주
+        }
     }
 }

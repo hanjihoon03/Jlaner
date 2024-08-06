@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,6 +25,7 @@ import java.time.Duration;
 
 @RequiredArgsConstructor
 @Slf4j
+@Order(2)
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final TokenProvider tokenProvider;
     private final RefreshTokenRedisService refreshTokenRedisService;
@@ -50,15 +52,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         String requestURI = request.getRequestURI();
 
-        // 로그인 페이지와 정적 리소스에 대해서는 필터를 무시
-        if (requestURI.startsWith("/css") || requestURI.startsWith("/pngs")) {
+        //정적 리소스에 대해서는 필터를 무시
+        if (requestURI.startsWith("/css") || requestURI.startsWith("/pngs") || requestURI.startsWith("/js")) {
             filterChain.doFilter(request, response);
             return;
         }
-
-        count++;
-        log.info("count={}", count);
+        log.info("Incoming request: URI = {}, Method = {}", request.getRequestURI(), request.getMethod());
         log.info("request={}", request);
+        log.info("requestURI={}", request.getRequestURI());
+        log.info("request PathInfo={}", request.getPathInfo());
 
 
         // HTTP 요청 헤더에서 Authorization 헤더 값을 가져옴

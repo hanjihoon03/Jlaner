@@ -68,6 +68,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         saveToken(member.getId(),accessToken, refreshToken);
 
+
         String targetUrl = getTargetUrl(accessToken);
 
         clearAuthenticationAttributes(request, response);

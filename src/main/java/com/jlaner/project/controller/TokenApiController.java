@@ -59,6 +59,7 @@ public class TokenApiController {
                 String jwtToken = token.substring(7);
                 Claims claims = tokenProvider.getClaims(jwtToken);
                 String memberName = claims.getSubject();
+                log.info("memberName={}", memberName);
 
                 // 인증된 사용자 정보 반환
                 return ResponseEntity.ok().body(Collections.singletonMap("memberName", memberName));

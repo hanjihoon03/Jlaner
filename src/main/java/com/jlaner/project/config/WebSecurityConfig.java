@@ -49,7 +49,6 @@ public class WebSecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                 .addFilterBefore(addAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests(auth -> auth
                         .requestMatchers(
@@ -94,10 +93,7 @@ public class WebSecurityConfig {
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
         return new TokenAuthenticationFilter(tokenProvider,refreshTokenRedisService,memberRepository);
     }
-    @Bean
-    public AddAuthorizationFilter addAuthorizationFilter() {
-        return new AddAuthorizationFilter(refreshTokenRedisService);
-    }
+
 
 
     @Bean

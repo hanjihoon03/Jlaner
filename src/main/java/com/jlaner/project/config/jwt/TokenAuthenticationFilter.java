@@ -60,7 +60,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         log.info("Incoming request: URI = {}, Method = {}", request.getRequestURI(), request.getMethod());
         log.info("request={}", request);
         log.info("requestURI={}", request.getRequestURI());
-        log.info("request PathInfo={}", request.getPathInfo());
 
 
         // HTTP 요청 헤더에서 Authorization 헤더 값을 가져옴
@@ -69,57 +68,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         // Authorization 헤더 값에서 토큰을 추출
         String token = getAccessToken(authorizationHeader);
         log.info("token = {}", token);
-        log.info("-------4--------");
-
-
-        //AccessToken이 만료되었는지 확인
-        if (token != null && !tokenProvider.validToken(token)) {
-            log.info("Access Token 만료");
-            //만료라면 쿠키에서 리프레시 토큰 값을 가져온다.
-            String refreshTokenValue = CookieUtil.getCookie(request, REFRESH_TOKEN_COOKIE_NAME)
-                    .map(Cookie::getValue)
-                    .orElse(null);
-            log.info("refreshToken={}", refreshTokenValue);
-
-            //리프레시 토큰 값이 null이 아니라면 쿠키의 refreshToken과 레디스의 refreshToken이 같은지 추가 검증
-            if (refreshTokenValue != null) {
-                //쿠키의 리프레시토큰 값이 레디스에 있다면 검증된 값이기에 진행
-                RefreshToken refreshToken = refreshTokenRedisService.findByRefreshToken(refreshTokenValue);
-
-                //반환되는 리프레시 토큰 값이 존재하고 valid로 만료를 검증해서 검증시 액세스 토큰을 발급
-                if (refreshToken != null && tokenProvider.validToken(refreshTokenValue)) {
-                    Member member = memberRepository.findById(refreshToken.getMemberId())
-                            .orElse(null);
-
-                    if (member != null) {
-                        String newAccessToken = tokenProvider.generateToken(member, ACCESS_TOKEN_DURATION);
-                        //새로 발급한 액세스 토큰을 업데이트 하고 레디스에 저장.
-                        refreshToken.accessTokenUpdate(newAccessToken);
-                        refreshTokenRedisService.saveToken(refreshToken);
-
-                        log.info("새로운 액세스 토큰 발급={}", newAccessToken);
-
-                        response.setHeader(HEADER_AUTHORIZATION, TOKEN_PREFIX + newAccessToken);
-                        // 새로운 액세스 토큰으로 인증 객체 생성 및 설정
-                        Authentication authentication = tokenProvider.getAuthentication(newAccessToken);
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    } else {
-                        log.info("Not Found Member");
-                        response.sendRedirect("/login?error=memberNotFound");
-                    }
-                    } else {
-                        //토큰이 null이거나 만료라면 다시 로그인
-                        //401 오류 페이지를 로그인 페이지로 이동하게끔 구성
-                        log.info("Invalid Refresh Token");
-                        response.sendRedirect("/login?error=invalidRefreshToken");
-                    }
-                } else {
-                    //쿠키의 리프레시 토큰이 유효하지 않은 경우 (만료 또는 잘못된 토큰)
-                    log.info("Invalid Refresh Token");
-                    response.sendRedirect("/login?error=missingRefreshToken");
-                }
-            }
-
 
         // 추출된 토큰이 유효한 경우
         if (tokenProvider.validToken(token)) {

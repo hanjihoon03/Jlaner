@@ -44,89 +44,70 @@ public class TestController {
 
         return "login/login";
     }
-//    @GetMapping("/home")
-//    public String home(@RequestParam("token") String token,
-//                       HttpServletRequest request,
-//                       HttpServletResponse response,
-//                       Model model) {
-//        // accessToken을 로그에 출력하여 확인
-//        log.info("accessToken={}", token);
-//
-//        try {
-//            Long memberId;
-//            String newAccessToken = null;
-//
-//            if (tokenProvider.isTokenExpired(token)) {
-//                log.info("토큰이 만료되었습니다. 리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급합니다.");
-//                String refreshTokenValue = CookieUtil.getCookie(request, "refresh_token")
-//                        .map(Cookie::getValue)
-//                        .orElse(null);
-//
-//                if (refreshTokenValue != null) {
-//                    RefreshToken refreshToken = refreshTokenRedisService.findByRefreshToken(refreshTokenValue);
-//                    if (refreshToken != null) {
-//                        memberId = refreshToken.getMemberId();
-//                        Member findByMember = memberService.findByMemberId(memberId);
-//
-//                        newAccessToken = tokenProvider.generateToken(findByMember, Duration.ofDays(1));
-//                        //새로운 액세스 토큰을 발급해야 하기 때문에 redis에 저장된 토큰 정보의 AccessToken를 업데이트
-//                        RefreshToken updateToken = refreshToken.accessTokenUpdate(newAccessToken);
-//                        refreshTokenRedisService.saveToken(updateToken);
-//
-//                        response.setHeader("Authorization", "Bearer " + newAccessToken);
-//                        log.info("새로운 액세스 토큰 발급={}", newAccessToken);
-//
-//                        // 새로운 토큰을 포함하여 리다이렉트
-//                        String targetUrl = UriComponentsBuilder.fromUriString("/home")
-//                                .queryParam("token", newAccessToken)
-//                                .build()
-//                                .toUriString();
-//                        return "redirect:" + targetUrl;
-//                    } else {
-//                        log.error("유효하지 않은 리프레시 토큰입니다.");
-//                        return "redirect:/login?error=invalidRefreshToken";
-//                    }
-//                } else {
-//                    log.error("리프레시 토큰이 존재하지 않습니다.");
-//                    return "redirect:/login?error=missingRefreshToken";
-//                }
-//            } else {
-//                memberId = tokenProvider.getMemberId(token);
-//            }
-//
-//            Member findMember = memberService.findByMemberId(memberId);
-//
-//            model.addAttribute("memberName", findMember.getName());
-//            model.addAttribute("scheduleData", new ScheduleData());
-//            model.addAttribute("post", new Post());
-//        } catch (Exception e) {
-//            log.error("오류 발생: {}", e.getMessage());
-//            return "redirect:/login?error=unauthorized";
-//        }
-//        log.info("home 이동");
-//
-//        return "home";
-//    }
-
     @GetMapping("/home")
     public String home(@RequestParam("token") String token,
+                       HttpServletRequest request,
                        HttpServletResponse response,
                        Model model) {
         // accessToken을 로그에 출력하여 확인
         log.info("accessToken={}", token);
 
-        // accessToken을 이용하여 사용자 정보를 조회
-        Long memberId = tokenProvider.getMemberId(token);
-        Member findMember = memberService.findByMemberId(memberId);
+        try {
+            Long memberId;
+            String newAccessToken = null;
 
-        // 사용자 이름을 모델에 추가
-        model.addAttribute("memberName", findMember.getName());
-        model.addAttribute("scheduleData", new ScheduleData());
-        model.addAttribute("post", new Post());
+            if (tokenProvider.isTokenExpired(token)) {
+                log.info("토큰이 만료되었습니다. 리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급합니다.");
+                String refreshTokenValue = CookieUtil.getCookie(request, "refresh_token")
+                        .map(Cookie::getValue)
+                        .orElse(null);
 
-        // home 뷰 반환
+                if (refreshTokenValue != null) {
+                    RefreshToken refreshToken = refreshTokenRedisService.findByRefreshToken(refreshTokenValue);
+                    if (refreshToken != null) {
+                        memberId = refreshToken.getMemberId();
+                        Member findByMember = memberService.findByMemberId(memberId);
+
+                        newAccessToken = tokenProvider.generateToken(findByMember, Duration.ofDays(1));
+                        //새로운 액세스 토큰을 발급해야 하기 때문에 redis에 저장된 토큰 정보의 AccessToken를 업데이트
+                        RefreshToken updateToken = refreshToken.accessTokenUpdate(newAccessToken);
+                        refreshTokenRedisService.saveToken(updateToken);
+
+                        response.setHeader("Authorization", "Bearer " + newAccessToken);
+                        log.info("새로운 액세스 토큰 발급={}", newAccessToken);
+
+                        // 새로운 토큰을 포함하여 리다이렉트
+                        String targetUrl = UriComponentsBuilder.fromUriString("/home")
+                                .queryParam("token", newAccessToken)
+                                .build()
+                                .toUriString();
+                        return "redirect:" + targetUrl;
+                    } else {
+                        log.error("유효하지 않은 리프레시 토큰입니다.");
+                        return "redirect:/login?error=invalidRefreshToken";
+                    }
+                } else {
+                    log.error("리프레시 토큰이 존재하지 않습니다.");
+                    return "redirect:/login?error=missingRefreshToken";
+                }
+            } else {
+                memberId = tokenProvider.getMemberId(token);
+            }
+
+            Member findMember = memberService.findByMemberId(memberId);
+
+            model.addAttribute("memberName", findMember.getName());
+            model.addAttribute("scheduleData", new ScheduleData());
+            model.addAttribute("post", new Post());
+        } catch (Exception e) {
+            log.error("오류 발생: {}", e.getMessage());
+            return "redirect:/login?error=unauthorized";
+        }
+        log.info("home 이동");
+
         return "home";
     }
+
     @GetMapping("/testPage")
     @PreAuthorize("isAuthenticated()")
     public String testPage() {

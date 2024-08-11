@@ -33,7 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     // 리프레시 토큰의 유효 기간 (14일)
     public static final Duration REFRESH_TOKEN_DURATION = Duration.ofDays(14);
     // 액세스 토큰의 유효 기간 (1일)
-    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofSeconds(30);
+    public static final Duration ACCESS_TOKEN_DURATION = Duration.ofMinutes(2);
     // 인증 성공 후 리다이렉트할 기본 경로
     public static final String REDIRECT_PATH = "/home";
 
@@ -53,6 +53,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
      */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        try {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = extractEmail(oAuth2User.getAttributes());
         Member member = memberService.findByEmail(email);
@@ -70,15 +71,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 
         String targetUrl = getTargetUrl(accessToken);
+        log.info(targetUrl);
 
         clearAuthenticationAttributes(request, response);
+        log.info("request:{}", request.getRequestURI());
 
-        try {
             // 인증 성공 후 리다이렉트
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
             log.info("Response status: {}", response.getStatus());
             log.info("Response headers: {}", response.getHeaderNames());
-            log.info("Response locale: {}", response.getLocale());
+            log.info("request:{}", request.getRequestURI());
 
         } catch (Exception e) {
             log.error("Error during redirect", e);

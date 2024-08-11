@@ -23,6 +23,7 @@ public class ScheduleData {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Column(unique = true)
     private Date scheduleDate;
 
     @Column(nullable = false, columnDefinition = "TINYINT(1)")

@@ -24,5 +24,16 @@ public class Post {
     private Member member;
 
     private String contentData;
-    private Date postDate;
+    @Column(unique = true)
+    private Date scheduleDate;
+
+    public Post(Member member, String contentData, Date scheduleDate) {
+        this.member = member;
+        this.contentData = contentData;
+        this.scheduleDate = scheduleDate;
+    }
+
+    public void updateContentData(String newContentData) {
+        this.contentData = newContentData;
+    }
 }

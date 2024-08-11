@@ -41,8 +41,38 @@ function toggleYouTubeContainer() {
 function confirmDate() {
         const selectedDate = document.getElementById('schedule-date').value;
         document.getElementById('post-date').value = selectedDate;
-        document.getElementById('schedule-date-hidden').value = selectedDate;
         alert("날짜가 설정되었습니다: " + selectedDate);
+}
+
+document.getElementById('post-form').addEventListener('submit', function(event) {
+        event.preventDefault();  // 기본 폼 제출 방지
+        savePostData();  // savePostData 함수 호출
+    });
+
+async function savePostData(){
+    const contentData = document.getElementById('shared-textarea').value;
+    const scheduleDate = document.getElementById('post-date').value;
+    const token = getAccessToken();
+
+    const PostData = {
+        contentData: contentData,
+        scheduleDate: scheduleDate
+    };
+
+    const response = await fetch('/api/jlaner/post/data', {
+        method: 'POST',
+         headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+        body: JSON.stringify(PostData)
+    });
+    if(response.ok){
+        alert("저장되었습니다.");
+    } else{
+        alert("저장에 실패했습니다.");
+    }
+
 }
 
 

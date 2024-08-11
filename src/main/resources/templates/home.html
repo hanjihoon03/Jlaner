@@ -43,13 +43,14 @@
             <button id="insert-button" onclick="insertYouTubeVideo()">Insert</button>
         </div>
         <div class="textarea-container">
-            <form th:action="@{/savePost}" method="post" th:object="${post}">
-                <button type="submit" class="save-button">Save</button>
+            <form id="post-form">
+                <input type="hidden" id="post-date" name="scheduleDate">
                 <textarea th:field="*{contentData}" id="shared-textarea" placeholder="내용을 입력해 주세요."></textarea>
+                <button type="submit" class="save-button">Save</button>
+            </form>
                 <div class="button-container">
                     <button id="toggle-youtube-button" onclick="toggleYouTubeContainer()">Toggle YouTube</button>
                 </div>
-            </form>
         </div>
     </div>
     <div id="schedule-tab" class="content-tab">
@@ -123,9 +124,9 @@
 <div id="youtube-container" class="youtube-container">
     <iframe id="youtube-preview" width="560" height="200" src="" frameborder="0" allowfullscreen></iframe>
 </div>
-<script src="/js/jlaner.js"></script>
-<script src="/js/logout.js"></script>
 <script src="/js/token.js"></script>
 <script src="/js/setHeader.js"></script>
+<script src="/js/jlaner.js"></script>
+<script src="/js/logout.js"></script>
 </body>
 </html>

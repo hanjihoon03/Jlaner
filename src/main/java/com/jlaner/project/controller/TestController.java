@@ -5,6 +5,7 @@ import com.jlaner.project.domain.Member;
 import com.jlaner.project.domain.Post;
 import com.jlaner.project.domain.RefreshToken;
 import com.jlaner.project.domain.ScheduleData;
+import com.jlaner.project.dto.PostDto;
 import com.jlaner.project.service.MemberService;
 import com.jlaner.project.service.RefreshTokenRedisService;
 import com.jlaner.project.util.CookieUtil;
@@ -98,7 +99,7 @@ public class TestController {
 
             model.addAttribute("memberName", findMember.getName());
             model.addAttribute("scheduleData", new ScheduleData());
-            model.addAttribute("post", new Post());
+            model.addAttribute("contentData", "");
         } catch (Exception e) {
             log.error("오류 발생: {}", e.getMessage());
             return "redirect:/login?error=unauthorized";

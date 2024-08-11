@@ -76,11 +76,62 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             Authentication authentication = tokenProvider.getAuthentication(token);
             // SecurityContext에 인증 객체를 설정하여 인증 상태를 유지
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+
+        if (token != null && !tokenProvider.validToken(token)) {
+            log.info("Access Token 만료");
+            handleExpiredAccessToken(request, response, filterChain);
+            return;
         }
 
         // 다음 필터로 요청과 응답을 전달
         filterChain.doFilter(request, response);
 }
+
+    private void handleExpiredAccessToken(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        String refreshTokenValue = CookieUtil.getCookie(request, REFRESH_TOKEN_COOKIE_NAME)
+                .map(Cookie::getValue)
+                .orElse(null);
+        log.info("Refresh Token = {}", refreshTokenValue);
+
+        if (refreshTokenValue != null) {
+            RefreshToken refreshToken = refreshTokenRedisService.findByRefreshToken(refreshTokenValue);
+
+            if (refreshToken != null && tokenProvider.validToken(refreshTokenValue)) {
+                Member member = memberRepository.findById(refreshToken.getMemberId()).orElse(null);
+
+                if (member != null) {
+                    String newAccessToken = tokenProvider.generateToken(member, ACCESS_TOKEN_DURATION);
+                    refreshToken.accessTokenUpdate(newAccessToken);
+                    refreshTokenRedisService.saveToken(refreshToken);
+
+                    log.info("새로운 액세스 토큰 발급 = {}", newAccessToken);
+
+                    response.setHeader(HEADER_AUTHORIZATION, TOKEN_PREFIX + newAccessToken);
+
+                    Authentication authentication = tokenProvider.getAuthentication(newAccessToken);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    // 발급 후 필터 체인 진행
+                    filterChain.doFilter(request, response);
+                } else {
+                    log.info("Not Found Member");
+                    response.sendRedirect("/login?error=memberNotFound");
+                }
+            } else {
+                log.info("Invalid Refresh Token");
+                response.sendRedirect("/login?error=invalidRefreshToken");
+            }
+        } else {
+            log.info("Missing Refresh Token");
+            response.sendRedirect("/login?error=missingRefreshToken");
+        }
+    }
+
+
 
     /**
      * Authorization 헤더에서 JWT 토큰을 추출하는 메서드

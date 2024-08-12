@@ -1,5 +1,6 @@
 package com.jlaner.project.domain;
 
+import com.jlaner.project.dto.PostDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,4 +37,5 @@ public class Post {
     public void updateContentData(String newContentData) {
         this.contentData = newContentData;
     }
+
 }

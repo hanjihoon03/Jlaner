@@ -29,7 +29,8 @@
         <div class="schedule-container">
             <label for="schedule-date">Select Date:</label>
             <input type="date" id="schedule-date" name="schedule-date">
-            <button class="confirm-button" onclick="confirmDate()">확인</button>
+            <button class="confirm-button" onclick="confirmDate()">날짜 선택</button>
+            <button class="confirm-data-button" id="content-data" onclick="confirmData()">게시물 확인</button>
         </div>
     </div>
 </nav>
@@ -54,67 +55,68 @@
         </div>
     </div>
     <div id="schedule-tab" class="content-tab">
-        <form th:action="@{/saveSchedule}" method="post" th:object="${scheduleData}">
+        <form id="schedule-form">
+            <input type="hidden" id="scheduleData-date" name="scheduleDate">
             <div class="schedule-area">
                 <button type="submit" class="schedule-save-button">Save</button>
                 <div class="schedule-item">
                     <label>00:00 - 02:00</label>
-                    <input type="checkbox" th:field="*{checkBox1}" id="check-00-02">
+                    <input type="checkbox" id="check-00-02" name="checkBox1" value="true" th:checked="${checkBox1}">
                     <textarea th:field="*{scheduleContent1}" id="text-00-02" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>02:00 - 04:00</label>
-                    <input type="checkbox" th:field="*{checkBox2}" id="check-02-04">
+                    <input type="checkbox" id="check-02-04" name="checkBox2" value="true" th:checked="${checkBox2}">
                     <textarea th:field="*{scheduleContent2}" id="text-02-04" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>04:00 - 06:00</label>
-                    <input type="checkbox" th:field="*{checkBox3}" id="check-04-06">
+                    <input type="checkbox" id="check-04-06" name="checkBox3" value="true" th:checked="${checkBox3}">
                     <textarea th:field="*{scheduleContent3}" id="text-04-06" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>06:00 - 08:00</label>
-                    <input type="checkbox" th:field="*{checkBox4}" id="check-06-08">
+                    <input type="checkbox" id="check-06-08" name="checkBox4" value="true" th:checked="${checkBox4}">
                     <textarea th:field="*{scheduleContent4}" id="text-06-08" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>08:00 - 10:00</label>
-                    <input type="checkbox" th:field="*{checkBox5}" id="check-08-10">
+                    <input type="checkbox" id="check-08-10" name="checkBox5" value="true" th:checked="${checkBox5}">
                     <textarea th:field="*{scheduleContent5}" id="text-08-10" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>10:00 - 12:00</label>
-                    <input type="checkbox" th:field="*{checkBox6}" id="check-10-12">
+                    <input type="checkbox" id="check-10-12" name="checkBox6" value="true" th:checked="${checkBox6}">
                     <textarea th:field="*{scheduleContent6}" id="text-10-12" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>12:00 - 14:00</label>
-                    <input type="checkbox" th:field="*{checkBox7}" id="check-12-14">
+                    <input type="checkbox" id="check-12-14" name="checkBox7" value="true" th:checked="${checkBox7}">
                     <textarea th:field="*{scheduleContent7}" id="text-12-14" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>14:00 - 16:00</label>
-                    <input type="checkbox" th:field="*{checkBox8}" id="check-14-16">
+                    <input type="checkbox" id="check-14-16" name="checkBox8" value="true" th:checked="${checkBox8}">
                     <textarea th:field="*{scheduleContent8}" id="text-14-16" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>16:00 - 18:00</label>
-                    <input type="checkbox" th:field="*{checkBox9}" id="check-16-18">
+                    <input type="checkbox" id="check-16-18" name="checkBox9" value="true" th:checked="${checkBox9}">
                     <textarea th:field="*{scheduleContent9}" id="text-16-18" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>18:00 - 20:00</label>
-                    <input type="checkbox" th:field="*{checkBox10}" id="check-18-20">
+                    <input type="checkbox" id="check-18-20" name="checkBox10" value="true" th:checked="${checkBox10}">
                     <textarea th:field="*{scheduleContent10}" id="text-18-20" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>20:00 - 22:00</label>
-                    <input type="checkbox" th:field="*{checkBox11}" id="check-20-22">
+                    <input type="checkbox" id="check-20-22" name="checkBox11" value="true" th:checked="${checkBox11}">
                     <textarea th:field="*{scheduleContent11}" id="text-20-22" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
                 <div class="schedule-item">
                     <label>22:00 - 00:00</label>
-                    <input type="checkbox" th:field="*{checkBox12}" id="check-22-00">
+                    <input type="checkbox" id="check-22-00" name="checkBox12" value="true" th:checked="${checkBox12}">
                     <textarea th:field="*{scheduleContent12}" id="text-22-00" rows="3" placeholder="내용을 입력해 주세요."></textarea>
                 </div>
             </div>

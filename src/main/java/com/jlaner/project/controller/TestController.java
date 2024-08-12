@@ -2,14 +2,11 @@ package com.jlaner.project.controller;
 
 import com.jlaner.project.config.jwt.TokenProvider;
 import com.jlaner.project.domain.Member;
-import com.jlaner.project.domain.Post;
 import com.jlaner.project.domain.RefreshToken;
 import com.jlaner.project.domain.ScheduleData;
-import com.jlaner.project.dto.PostDto;
 import com.jlaner.project.service.MemberService;
 import com.jlaner.project.service.RefreshTokenRedisService;
 import com.jlaner.project.util.CookieUtil;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,12 +16,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
-import java.security.Principal;
 import java.time.Duration;
 
 @Controller
@@ -98,8 +92,14 @@ public class TestController {
             Member findMember = memberService.findByMemberId(memberId);
 
             model.addAttribute("memberName", findMember.getName());
-            model.addAttribute("scheduleData", new ScheduleData());
             model.addAttribute("contentData", "");
+
+            for (int i = 1; i <= 12; i++) {
+                model.addAttribute("checkBox" + i, Boolean.FALSE);
+                model.addAttribute("scheduleContent" + i, "");
+            }
+            log.info("checkBox1 value: {}", model.getAttribute("checkBox1"));
+
         } catch (Exception e) {
             log.error("오류 발생: {}", e.getMessage());
             return "redirect:/login?error=unauthorized";

@@ -15,6 +15,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         // 로그인 페이지로 리다이렉트
-        response.sendRedirect("/login");
+        response.sendRedirect("/login?error=unauthorized");
     }
 }

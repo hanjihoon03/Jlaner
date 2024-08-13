@@ -3,7 +3,6 @@ package com.jlaner.project.controller;
 import com.jlaner.project.config.jwt.TokenProvider;
 import com.jlaner.project.domain.Member;
 import com.jlaner.project.domain.RefreshToken;
-import com.jlaner.project.domain.ScheduleData;
 import com.jlaner.project.service.MemberService;
 import com.jlaner.project.service.RefreshTokenRedisService;
 import com.jlaner.project.util.CookieUtil;
@@ -24,14 +23,14 @@ import java.time.Duration;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-public class TestController {
+public class PageController {
     private final TokenProvider tokenProvider;
     private final MemberService memberService;
     private final RefreshTokenRedisService refreshTokenRedisService;
 
     @GetMapping("")
-    public String movelogin(){
-        return "login/login";
+    public String moveLogin(){
+        return "home";
     }
 
     @GetMapping("/login")

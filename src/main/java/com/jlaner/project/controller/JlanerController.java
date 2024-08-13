@@ -1,10 +1,10 @@
 package com.jlaner.project.controller;
 
-import com.jlaner.project.config.jwt.TokenProvider;
+
 import com.jlaner.project.domain.Member;
-import com.jlaner.project.domain.Post;
+
 import com.jlaner.project.domain.RefreshToken;
-import com.jlaner.project.domain.ScheduleData;
+
 import com.jlaner.project.dto.PostDto;
 import com.jlaner.project.dto.ScheduleAndPostDto;
 import com.jlaner.project.dto.ScheduleDataDto;
@@ -23,9 +23,6 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Date;
 
 @RestController
@@ -45,6 +42,8 @@ public class JlanerController {
                                           HttpServletRequest request,
                                           HttpServletResponse response
     ) {
+        try {
+
         String refreshToken = CookieUtil.getCookie(request, "refresh_token")
                 .map(Cookie::getValue)
                 .orElse(null);
@@ -60,6 +59,9 @@ public class JlanerController {
         log.info("date={}", postDto.getScheduleDate());
 
         return ResponseEntity.status(200).build();
+        }catch (Exception e) {
+            return ResponseEntity.status(401).build();
+        }
     }
 
     @PostMapping("/jlaner/schedule/data")
@@ -67,6 +69,7 @@ public class JlanerController {
                                           HttpServletRequest request,
                                           HttpServletResponse response
     ) {
+        try {
         String refreshToken = CookieUtil.getCookie(request, "refresh_token")
                 .map(Cookie::getValue)
                 .orElse(null);
@@ -79,6 +82,10 @@ public class JlanerController {
         scheduleService.scheduleDataSaveOrUpdate(scheduleDataDto, findMember);
 
         return ResponseEntity.status(200).build();
+
+        } catch (Exception e) {
+            return ResponseEntity.status(401).build();
+        }
     }
 
     @GetMapping("/jlaner/data")
@@ -107,7 +114,7 @@ public class JlanerController {
 
             return ResponseEntity.ok(sendData);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.status(401).build();
         }
 
 

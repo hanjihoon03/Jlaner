@@ -48,6 +48,13 @@ function confirmDate() {
 document.getElementById('post-form').addEventListener('submit', function(event) {
         event.preventDefault();  // 기본 폼 제출 방지
         savePostData();  // savePostData 함수 호출
+
+        localStorage.removeItem('contentData');
+                for (let i = 1; i <= 12; i++) {
+                    const timeSlot = formatTimeSlot(i);
+                    localStorage.removeItem(`check-${timeSlot}`);
+                    localStorage.removeItem(`text-${timeSlot}`);
+                }
     });
 
 async function savePostData(){
@@ -79,6 +86,13 @@ async function savePostData(){
 document.getElementById('schedule-form').addEventListener('submit', function(event) {
         event.preventDefault();  // 기본 폼 제출 방지
         saveScheduleData();  // savePostData 함수 호출
+
+        localStorage.removeItem('contentData');
+                for (let i = 1; i <= 12; i++) {
+                    const timeSlot = formatTimeSlot(i);
+                    localStorage.removeItem(`check-${timeSlot}`);
+                    localStorage.removeItem(`text-${timeSlot}`);
+                }
     });
 
 async function saveScheduleData(){
@@ -176,8 +190,9 @@ async function confirmData() {
             const data = await response.json();
             populateScheduleData(data.scheduleData);  // 스케줄 데이터를 폼에 채우기
             populatePostData(data.postData);  // 포스트 데이터를 폼에 채우기
+            alert("게시물을 가져왔습니다.");
         } else {
-            alert("데이터를 가져오는 데 실패했습니다.");
+            alert("게시물을 가져오는 데 실패했습니다.");
         }
     } catch (error) {
         console.error('오류가 발생했습니다. ', error);

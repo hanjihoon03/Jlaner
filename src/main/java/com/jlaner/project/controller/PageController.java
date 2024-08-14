@@ -108,12 +108,4 @@ public class PageController {
         return "home";
     }
 
-    @GetMapping("/testPage")
-    @PreAuthorize("isAuthenticated()")
-    public String testPage() {
-        log.info("testPage");
-
-        return "testPage";
-    }
-
 }

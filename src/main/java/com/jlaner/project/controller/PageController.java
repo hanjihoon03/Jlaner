@@ -30,7 +30,7 @@ public class PageController {
 
     @GetMapping("")
     public String moveLogin(){
-        return "home";
+        return "login/login";
     }
 
     @GetMapping("/login")

@@ -3,7 +3,6 @@ package com.jlaner.project.config.jwt;
 
 import com.jlaner.project.domain.Member;
 import com.jlaner.project.domain.RefreshToken;
-import com.jlaner.project.exception.CustomUnauthorizedException;
 import com.jlaner.project.repository.MemberRepository;
 import com.jlaner.project.service.RefreshTokenRedisService;
 import com.jlaner.project.util.CookieUtil;

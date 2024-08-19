@@ -34,7 +34,7 @@ jobs:
 
       - name : Build Docker Image & Push to Docker Hub
         run: |
-          docker build . -t jlaner/docker-springboot
-          docker build ./nginx -t jlaner/docker-nginx
-          docker push jlaner/docker-springboot
-          docker push jlaner/docker-nginx
+          docker build . -t hanjihoon0315/docker-springboot
+          docker build ./nginx -t hanjihoon0315/docker-nginx
+          docker push hanjihoon0315/docker-springboot
+          docker push hanjihoon0315/docker-nginx

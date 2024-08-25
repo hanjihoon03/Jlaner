@@ -9,8 +9,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jlaner?allowPublicKeyRetrieval=true  # MySQL 연결 URL
       - SPRING_DATASOURCE_USERNAME=root  # MySQL 사용자명
       - SPRING_DATASOURCE_PASSWORD=raik1353  # MySQL 비밀번호
-      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT= org.hibernate.dialect.MySQLDialect
-      - SPRING_JPA_HIBERNATE_DDL_AUTO= none
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
     restart: always
     depends_on:
       - redis

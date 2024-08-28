@@ -1,0 +1,8 @@
+# 베이스 이미지 설정
+FROM redis:latest
+
+# 로그 파일을 저장할 디렉토리 생성
+RUN mkdir -p /var/log/redis && chown redis:redis /var/log/redis
+
+# 파일 권한 설정
+RUN chown redis:redis /var/log/redis

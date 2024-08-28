@@ -35,7 +35,7 @@ public class PageController {
 
     @GetMapping("/login")
     public String login() {
-
+        log.info("-----------docker ON-----------------");
         return "login/login";
     }
     @GetMapping("/home")

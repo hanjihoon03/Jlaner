@@ -1,4 +1,4 @@
-CREATE DATABASE jlaner;
+CREATE DATABASE IF NOT EXISTS jlaner;
 USE jlaner;
 
 CREATE TABLE member (

@@ -1,7 +1,7 @@
 package com.jlaner.project.config.redis;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -25,9 +25,13 @@ public class RedisConfig {
 //        redisStandaloneConfiguration.setPort(redisProperties.getPort());
 //        return new LettuceConnectionFactory(redisStandaloneConfiguration);
 //    }
+    @Value("${spring.data.redis.port}")
+    private int port;
+    @Value("${spring.data.redis.host}")
+    private String host;
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory();  // Spring Boot가 자동으로 Redis 설정을 적용합니다.
+        return new LettuceConnectionFactory(host, port);  // Spring Boot가 자동으로 Redis 설정을 적용합니다.
     }
 
     @Bean

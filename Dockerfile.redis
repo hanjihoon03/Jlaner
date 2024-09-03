@@ -1,8 +1,8 @@
 # 베이스 이미지 설정
-FROM redis:latest
+FROM redis:alpine
 
-# 로그 파일을 저장할 디렉토리 생성
-RUN mkdir -p /var/log/redis && chown redis:redis /var/log/redis
+COPY ["redis.conf", "/data/redis.conf"]
 
-# 파일 권한 설정
-RUN chown redis:redis /var/log/redis
+EXPOSE 6379
+
+ENTRYPOINT ["redis-server", "/data/redis.conf"]

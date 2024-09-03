@@ -1,20 +1,17 @@
 
 services:
   spring-app:
-    image: hanjihoon0315/docker-springboot:latest
-#    build:
+    image: hanjihoon0315/docker-springboot
+    #    build:
 #      context: .
 #      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:
-      - SPRING_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_HOST=redis
       - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/jlaner?serverTimezone=Asia/Seoul
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=raik1353
-#      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/jlaner?allowPublicKeyRetrieval=true  # MySQL 연결 URL
-#      - SPRING_DATASOURCE_USERNAME=root  # MySQL 사용자명
-#      - SPRING_DATASOURCE_PASSWORD=raik1353  # MySQL 비밀번호
     restart: always
     depends_on:
       - redis
@@ -32,18 +29,21 @@ services:
 
   redis:
     container_name: redis
-    image: redis
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.redis
+    image: hanjihoon0315/docker-redis
+    hostname: redis
     ports:
       - "6379:6379"
-    volumes:
-      - redis-data:/data
-      - ./redis/conf/redis.conf:/usr/local/conf/redis.conf
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - backend
 
   mysql:
     container_name: mysql
-    image: mysql:8.0
+    image: hanjihoon0315/docker-mysql
     environment:
       MYSQL_ROOT_PASSWORD: raik1353  # MySQL 루트 비밀번호 설정
       MYSQL_DATABASE: jlaner  # 기본적으로 생성할 데이터베이스 이름

@@ -36,5 +36,7 @@ jobs:
         run: |
           docker build . -t hanjihoon0315/docker-springboot
           docker build ./nginx -t hanjihoon0315/docker-nginx
+          docker build -f dockerfile.redis -t hanjihoon0315/docker-redis .
           docker push hanjihoon0315/docker-springboot
           docker push hanjihoon0315/docker-nginx
+          docker push hanjihoon0315/docker-redis

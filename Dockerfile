@@ -1,5 +1,5 @@
 # 베이스 이미지 설정
-FROM openjdk:21
+FROM openjdk:21-alpine
 
 # 빌드 시 변수 설정
 ARG JAR_FILE=./build/libs/project-0.0.1-SNAPSHOT.jar

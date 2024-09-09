@@ -17,22 +17,22 @@ services:
     networks:
       - backend
 
-  spring-app-green:
-    image: hanjihoon0315/docker-springboot
-    container_name: spring-app-green
-    ports:
-      - "8081:8080"  # Green은 8081 포트를 사용
-    environment:
-      - SPRING_DATA_REDIS_HOST=redis
-      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/jlaner?serverTimezone=Asia/Seoul
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=raik1353
-    restart: always
-    depends_on:
-      - redis
-      - mysql
-    networks:
-      - backend
+#  spring-app-green:
+#    image: hanjihoon0315/docker-springboot
+#    container_name: spring-app-green
+#    ports:
+#      - "8081:8080"  # Green은 8081 포트를 사용
+#    environment:
+#      - SPRING_DATA_REDIS_HOST=redis
+#      - SPRING_DATASOURCE_URL=jdbc:mysql://host.docker.internal:3306/jlaner?serverTimezone=Asia/Seoul
+#      - SPRING_DATASOURCE_USERNAME=root
+#      - SPRING_DATASOURCE_PASSWORD=raik1353
+#    restart: always
+#    depends_on:
+#      - redis
+#      - mysql
+#    networks:
+#      - backend
 
   redis:
     container_name: redis

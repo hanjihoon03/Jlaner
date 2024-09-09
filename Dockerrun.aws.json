@@ -1,0 +1,67 @@
+{
+  "AWSEBDockerrunVersion": "2",
+  "containerDefinitions": [
+    {
+      "name": "spring-app-blue",
+      "image": "hanjihoon0315/docker-springboot",
+      "essential": true,
+      "memory": 400,
+      "portMappings": [
+        {
+          "hostPort": 8080,
+          "containerPort": 8080
+        }
+      ],
+      "environment": [
+        { "name": "SPRING_DATA_REDIS_HOST", "value": "redis" },
+        { "name": "SPRING_DATASOURCE_URL", "value": "jdbc:mysql://host.docker.internal:3306/jlaner?serverTimezone=Asia/Seoul" },
+        { "name": "SPRING_DATASOURCE_USERNAME", "value": "root" },
+        { "name": "SPRING_DATASOURCE_PASSWORD", "value": "raik1353" }
+      ],
+      "links": ["redis", "mysql"]
+    },
+    {
+      "name": "redis",
+      "image": "hanjihoon0315/docker-redis",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 6379,
+          "containerPort": 6379
+        }
+      ]
+    },
+    {
+      "name": "mysql",
+      "image": "hanjihoon0315/docker-mysql",
+      "essential": true,
+      "memory": 496,
+      "environment": [
+        { "name": "MYSQL_ROOT_PASSWORD", "value": "raik1353" },
+        { "name": "MYSQL_DATABASE", "value": "jlaner" },
+        { "name": "TZ", "value": "Asia/Seoul" }
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "mysql-data",
+          "containerPath": "/var/lib/mysql"
+        }
+      ],
+      "portMappings": [
+        {
+          "hostPort": 3306,
+          "containerPort": 3306
+        }
+      ]
+    }
+  ],
+  "volumes": [
+    {
+      "name": "mysql-data",
+      "host": {
+        "sourcePath": "/var/lib/mysql"
+      }
+    }
+  ]
+}

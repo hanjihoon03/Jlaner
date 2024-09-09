@@ -46,6 +46,9 @@ jobs:
          format: YYYY-MM-DDTHH-mm-ss
          utcOffset: "+09:00"
 
+      - name: Create deployment package
+        run: zip -r deploy-package.zip docker-compose.yml
+
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v20
         with:
@@ -55,5 +58,5 @@ jobs:
          environment_name: Jlaner-env
          version_label: deploy-${{steps.current-time.outputs.formattedTime}}
          region: ap-northeast-2
-         deployment_package: .
+         deployment_package: deploy-package.zip
          wait_for_environment_recovery: 300

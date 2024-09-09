@@ -55,5 +55,5 @@ jobs:
          environment_name: Jlaner-env
          version_label: deploy-${{steps.current-time.outputs.formattedTime}}
          region: ap-northeast-2
-         deployment_package: docker-compose.yml
+         deployment_package: .
          wait_for_environment_recovery: 300

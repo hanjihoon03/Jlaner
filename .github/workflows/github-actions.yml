@@ -49,7 +49,7 @@ jobs:
       - name: Create deployment package
         run: |
           mkdir -p deploy-package
-          cp Dockerrun.aws.json deploy-package/
+          cp docker-compose.yml deploy-package/
           cd deploy-package
           zip -r ../deploy-package.zip .
 

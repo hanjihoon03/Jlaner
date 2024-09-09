@@ -1,8 +1,8 @@
 {
-  "AWSEBDockerrunVersion": "2",
-  "containerDefinitions": [
+  "AWSEBDockerrunVersion": 3,
+  "services": [
     {
-      "name": "spring-app-blue",
+      "name": "spring-app",
       "image": "hanjihoon0315/docker-springboot",
       "essential": true,
       "memory": 400,
@@ -18,7 +18,16 @@
         { "name": "SPRING_DATASOURCE_USERNAME", "value": "root" },
         { "name": "SPRING_DATASOURCE_PASSWORD", "value": "raik1353" }
       ],
-      "links": ["redis", "mysql"]
+      "dependsOn": [
+        {
+          "containerName": "redis",
+          "condition": "START"
+        },
+        {
+          "containerName": "mysql",
+          "condition": "START"
+        }
+      ]
     },
     {
       "name": "redis",

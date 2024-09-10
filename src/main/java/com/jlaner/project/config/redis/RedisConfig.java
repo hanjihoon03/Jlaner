@@ -25,6 +25,7 @@ public class RedisConfig {
 //        redisStandaloneConfiguration.setPort(redisProperties.getPort());
 //        return new LettuceConnectionFactory(redisStandaloneConfiguration);
 //    }
+
     @Value("${spring.data.redis.port}")
     private int port;
     @Value("${spring.data.redis.host}")

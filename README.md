@@ -32,4 +32,6 @@
 ![image](https://github.com/user-attachments/assets/ca325c70-9404-4114-b2ac-5fdaa899ed63)
 
 ## 프로젝트 아키텍쳐
-![JlanerArchitecture.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/b82b887b-2607-45bd-bf44-5778d84184b5/99b0516f-74b6-4f50-ab1c-518b11afe242/JlanerArchitecture.png)
+![JlanerArchitecture](https://github.com/user-attachments/assets/b2da6e74-ca69-46ff-97f0-f8eea19917f4)
+
+

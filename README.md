@@ -6,7 +6,7 @@
 
 ## 프로젝트 기록
 
-[포스팅](https://jh315.tistory.com/)
+[이동](https://jh315.tistory.com/)
 
 ## 요구사항 정리
 ![image](https://github.com/user-attachments/assets/6991f1ac-0b2b-4430-9f5d-261446bdc749)

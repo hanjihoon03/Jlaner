@@ -32,6 +32,7 @@
 ![image](https://github.com/user-attachments/assets/ca325c70-9404-4114-b2ac-5fdaa899ed63)
 
 ## 프로젝트 아키텍쳐
-![JlanerArchitecture](https://github.com/user-attachments/assets/b2da6e74-ca69-46ff-97f0-f8eea19917f4)
+<img width="925" alt="스크린샷 2024-09-13 오전 9 00 53" src="https://github.com/user-attachments/assets/45abc138-0bc5-4a41-b530-52d6d798df97">
+
 
 

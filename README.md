@@ -4,7 +4,7 @@
 개발 기간: 2024.07.27 ~ 2024.09.12 (6주)
 
 ##프로젝트 기록
-<a href ="https://jh315.tistory.com/">
+[포스팅](https://jh315.tistory.com/)
 
 ## 요구사항 정리
 ![image](https://github.com/user-attachments/assets/6991f1ac-0b2b-4430-9f5d-261446bdc749)
